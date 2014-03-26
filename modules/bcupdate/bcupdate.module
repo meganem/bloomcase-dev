@@ -1,0 +1,78 @@
+<?php
+/**
+* Bloomcase Update module for Drupal 7
+*
+* - Assumes a standard Drupal 7 installation
+* - Does not verify that the field values are correct
+* - Does not authenticate the request
+*/
+
+function bcupdate_menu() {
+	$items['bcupdate/%/%/%/%/%/%/%/%/%/%/%/%'] = array(
+		'title' => 'title',
+		'page callback' => 'create_bc_node',
+		'page arguments' => array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12),
+		'access callback' => TRUE,
+		'type' => MENU_CALLBACK
+    );
+    return $items;
+}
+
+function create_bc_node( $action = '', $project = '', $type = '', $title = '', $summary = '', $body = '', $url = '', $evolvedFrom = '', $timestamp = '', $tags = '', $public = '', $featured = '' ) {
+	
+	//if($action == 'new') {
+		
+		$node = new stdClass();
+		$node->type = 'map_node';
+		node_object_prepare($node);
+		$node->language = LANGUAGE_NONE;
+		
+		//$node->field_project_reference['und'][0]['target_id'] = (int) $project;
+		
+		//switch for kind to assign term ID instead of string, or change JSON to pass ID numbers for kinds?
+		// goes here
+		
+		$node->title = $title . ' Created Programmatically on ' . date('c');
+		
+		$node->field_summary[$node->language][0]['value']   = $summary;
+		$node->field_summary[$node->language][0]['format']  = 'filtered_html';
+		
+		$node->body[$node->language][0]['value']   = $body;
+		$node->body[$node->language][0]['format']  = 'filtered_html';
+		
+		//$node->field_external_link['und'][0]['url'] = $url;
+		
+		//for each looping through evolvedFrom list, converting them into items in the array
+		// goes here
+		
+		//does timestamp go to date created, or revision, or changed?? Ideally we should use a separate field altogether to separate that data from the actual system logs of when the node was created.
+		// goes here
+		
+		//for each looping through tags and adding them to array
+		// goes here
+		
+		//if there is a value
+		/*if($public != 0) {
+			$node->field_public['und'][0]['value'] = $public;
+		}*/
+		
+		//if there is a value
+		/*if($featured != 0) {
+			$node->field_featured['und'][0]['value'] = $featured;
+		}*/
+		
+		
+		//UNUSED:
+		//$node->body[$node->language][0]['summary'] = text_summary($body);
+		//$path = 'content/programmatically_created_node_' . date('YmdHis');
+		//$node->path = array('alias' => $path);
+		
+		node_save($node);
+		
+	//} elseif ($action == 'edit') {
+			
+	//} else {
+		
+	//}
+}
+?>
